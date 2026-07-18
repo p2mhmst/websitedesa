@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Admin | Desa Depok</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Boxicons -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="css/admin.css?v=2" />
+
+    <!-- Login Check -->
+    <script>
+      if (sessionStorage.getItem("adminLoggedIn") !== "true") {
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <i class="bx bxs-dashboard"></i> Super Admin
+      </div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="#" class="nav-btn active" data-target="dashboard"
+            ><i class="bx bx-home"></i> Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="#" class="nav-btn" data-target="profil"
+            ><i class="bx bx-id-card"></i> Kelola Profil</a
+          >
+        </li>
+        <li>
+          <a href="#" class="nav-btn" data-target="umkm"
+            ><i class="bx bx-store-alt"></i> Kelola UMKM</a
+          >
+        </li>
+        <li>
+          <a href="#" class="nav-btn" data-target="admins"
+            ><i class="bx bx-user"></i> Kelola Admin</a
+          >
+        </li>
+        <li>
+          <a href="#" class="nav-btn" data-target="pesan"
+            ><i class="bx bx-envelope"></i> Pesan Masuk
+            <span
+              id="pesan-badge"
+              style="
+                background: #ef4444;
+                color: white;
+                font-size: 0.7rem;
+                padding: 2px 7px;
+                border-radius: 50px;
+                margin-left: 4px;
+                display: none;
+              "
+            ></span
+          ></a>
+        </li>
+        <li style="margin-top: 30px">
+          <a href="#" id="btn-logout" style="color: #ef4444"
+            ><i class="bx bx-log-out"></i> Logout</a
+          >
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="topbar">
+        <h2 id="page-title">Dashboard</h2>
+        <a href="index.html" class="btn-visit" target="_blank"
+          ><i class="bx bx-link-external"></i> Lihat Website</a
+        >
+      </div>
+
+      <!-- Dashboard Panel -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="panel-header">
+          <h3>Selamat Datang, Admin!</h3>
+        </div>
+        <p>
+          Gunakan menu di sebelah kiri untuk mengelola konten website Desa
+          Depok.
+        </p>
+        <p style="margin-top: 10px; color: #64748b">
+          Catatan: Perubahan akan disimpan secara lokal di browser Anda (Local
+          Storage).
+        </p>
+      </div>
+
+      <!-- Profil Panel -->
+      <div class="panel" id="panel-profil">
+        <div class="panel-header">
+          <h3>Ubah Profil Desa</h3>
+        </div>
+        <form id="form-profil">
+          <div class="form-group">
+            <label for="input-sejarah">Sejarah Desa</label>
+            <textarea
+              id="input-sejarah"
+              class="form-control"
+              rows="6"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="input-visi">Visi Desa</label>
+            <textarea id="input-visi" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="input-misi"
+              >Misi Desa (Pisahkan tiap poin dengan baris baru / Enter)</label
+            >
+            <textarea id="input-misi" class="form-control" rows="5"></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">
+            <i class="bx bx-save"></i> Simpan Profil
+          </button>
+        </form>
+      </div>
+
+      <!-- UMKM Panel -->
+      <div class="panel" id="panel-umkm">
+        <div
+          class="panel-header"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Daftar Produk UMKM</h3>
+          <button class="btn btn-success" id="btn-add-umkm">
+            <i class="bx bx-plus"></i> Tambah Produk
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Gambar</th>
+              <th>Nama Produk</th>
+              <th>Kategori</th>
+              <th>Harga</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="umkm-table-body">
+            <!-- Dinamis -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Admins Panel -->
+      <div class="panel" id="panel-admins">
+        <div class="panel-header">
+          <h3>Kelola Akun Admin</h3>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px">
+          <!-- Daftar Admin -->
+          <div>
+            <h4>Daftar Admin</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="admins-table-body">
+                <!-- Dinamis -->
+              </tbody>
+            </table>
+
+            <h4 style="margin-top: 30px">Tambah Admin Baru</h4>
+            <form id="form-add-admin" style="margin-top: 15px">
+              <div class="form-group">
+                <label for="new-admin-username">Username</label>
+                <input
+                  type="text"
+                  id="new-admin-username"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="new-admin-password">Password</label>
+                <input
+                  type="password"
+                  id="new-admin-password"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-success">
+                <i class="bx bx-user-plus"></i> Tambah Admin
+              </button>
+            </form>
+          </div>
+
+          <!-- Ganti Password -->
+          <div>
+            <h4>
+              Ganti Password Saya (<span id="current-user-display"></span>)
+            </h4>
+            <form id="form-change-password" style="margin-top: 15px">
+              <div class="form-group">
+                <label for="old-password">Password Lama</label>
+                <input
+                  type="password"
+                  id="old-password"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="new-password">Password Baru</label>
+                <input
+                  type="password"
+                  id="new-password"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-secondary">
+                <i class="bx bx-lock-alt"></i> Ubah Password
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pesan Masuk Panel -->
+      <div class="panel" id="panel-pesan">
+        <div
+          class="panel-header"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>
+            Pesan Masuk
+            <span
+              id="pesan-count-label"
+              style="font-size: 0.85rem; color: #64748b; font-weight: 400"
+            ></span>
+          </h3>
+          <button
+            class="btn btn-danger"
+            id="btn-hapus-semua-pesan"
+            onclick="hapusSemuaPesan()"
+            style="display: none"
+          >
+            <i class="bx bx-trash"></i> Hapus Semua
+          </button>
+        </div>
+        <div id="pesan-list">
+          <!-- Dinamis via admin.js -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal UMKM Form -->
+    <div class="modal-overlay" id="umkm-modal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="modal-title">Tambah Produk UMKM</h3>
+          <i class="bx bx-x close-modal" id="close-modal"></i>
+        </div>
+        <form id="form-umkm">
+          <input type="hidden" id="umkm-id" />
+          <div class="form-group">
+            <label for="u-nama">Nama Produk</label>
+            <input type="text" id="u-nama" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="u-kategori">Kategori</label>
+            <select
+              id="u-kategori"
+              class="form-control"
+              required
+              style="
+                width: 100%;
+                padding: 8px;
+                border-radius: 6px;
+                border: 1px solid #cbd5e1;
+                background: white;
+              "
+            >
+              <option value="" disabled selected>-- Pilih Kategori --</option>
+              <option value="Makanan">Makanan</option>
+              <option value="Minuman">Minuman</option>
+              <option value="Kerajinan">Kerajinan</option>
+              <option value="Pertanian">Pertanian</option>
+              <option value="Lainya">Lainya</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="u-penjual">Nama Penjual / Info Kontak</label>
+            <input type="text" id="u-penjual" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="u-whatsapp"
+              >Nomor WhatsApp Penjual (cth: 081234567890)</label
+            >
+            <input
+              type="text"
+              id="u-whatsapp"
+              class="form-control"
+              required
+              placeholder="0812xxxxxxxx atau 62812xxxxxxxx"
+            />
+          </div>
+          <div class="form-group">
+            <label for="u-harga">Harga (contoh: Rp 20.000)</label>
+            <input type="text" id="u-harga" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="u-gambar">Foto Produk (Harus JPG)</label>
+            <input
+              type="file"
+              id="u-gambar"
+              class="form-control"
+              accept=".jpg, .jpeg"
+              required
+            />
+            <div
+              id="u-gambar-preview-container"
+              style="margin-top: 10px; display: none"
+            >
+              <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 5px">
+                Preview Foto:
+              </p>
+              <img
+                id="u-gambar-preview"
+                src=""
+                alt="Preview"
+                style="
+                  max-width: 150px;
+                  border-radius: 8px;
+                  border: 1px solid #cbd5e1;
+                  display: block;
+                "
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="u-badge">Badge (Opsional, cth: Terlaris / Baru)</label>
+            <input type="text" id="u-badge" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="u-deskripsi">Deskripsi Produk</label>
+            <textarea id="u-deskripsi" class="form-control" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">
+            <i class="bx bx-save"></i> Simpan Produk
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/data.js?v=3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/admin.js?v=3"></script>
+
+    <script>
+      document
+        .getElementById("btn-logout")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          if (confirm("Yakin ingin logout?")) {
+            sessionStorage.removeItem("adminLoggedIn");
+            sessionStorage.removeItem("adminUsername");
+            window.location.href = "login.html";
+          }
+        });
+    </script>
+  </body>
+</html>

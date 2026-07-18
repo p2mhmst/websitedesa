@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Produk UMKM | Desa Depok</title>
+
+    <!-- Poppins Font & Boxicons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Pakai style.css yang sama dengan beranda -->
+    <link rel="stylesheet" href="style.css?v=3" />
+
+    <style>
+      .detail-wrapper {
+        padding: 60px 0;
+        min-height: 70vh;
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: start;
+      }
+
+      .detail-img {
+        width: 100%;
+        max-height: 450px;
+        object-fit: cover;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      .detail-info h2 {
+        font-size: 2.2rem;
+        color: #1e293b;
+        margin-bottom: 10px;
+      }
+
+      .detail-meta {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 15px;
+        font-size: 0.95rem;
+        color: #64748b;
+      }
+
+      .detail-price {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #059669;
+        margin-bottom: 20px;
+      }
+
+      .detail-desc {
+        color: #475569;
+        line-height: 1.7;
+        margin-bottom: 30px;
+        white-space: pre-line;
+      }
+
+      .error-box {
+        text-align: center;
+        padding: 60px 20px;
+      }
+
+      .error-box i {
+        font-size: 4rem;
+        color: #94a3b8;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .detail-grid {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header / Navbar -->
+    <header id="header" class="scrolled">
+      <div class="container navbar">
+        <a href="index.html" class="logo"> Desa<span>Depok</span> </a>
+        <nav class="nav-menu">
+          <ul class="nav-list">
+            <li><a href="index.html" class="nav-link">Beranda</a></li>
+            <li><a href="profil.html" class="nav-link">Profil</a></li>
+            <li><a href="index.html#layanan" class="nav-link">Layanan</a></li>
+            <li><a href="umkm.html" class="nav-link active">UMKM</a></li>
+            <li><a href="index.html#kontak" class="nav-link">Kontak</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="detail-wrapper">
+      <div class="container">
+        <!-- Tempat menaruh konten produk secara dinamis -->
+        <div id="product-content">
+          <div style="text-align: center; padding: 40px; color: #94a3b8">
+            Memuat detail produk...
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div
+        class="container"
+        style="
+          text-align: center;
+          color: #94a3b8;
+          font-size: 0.9rem;
+          padding: 20px 0;
+        "
+      >
+        &copy; 2026 Pemerintah Desa Depok. All rights reserved.
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+      const SUPABASE_URL = "https://kbsyguibbilcwvguzhly.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtic3lndWliYmlsY3d2Z3V6aGx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTEyNDksImV4cCI6MjA5Nzk4NzI0OX0.sAHNWQorrAIWepnPIANx273ERDWzC4ljydXr0JvKj9c";
+
+      const supabaseClient = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+      );
+
+      async function loadDetailProduk() {
+        const contentContainer = document.getElementById("product-content");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get("id");
+
+        if (!productId) {
+          renderError(contentContainer);
+          return;
+        }
+
+        try {
+          const { data: item, error } = await supabaseClient
+            .from("umkm")
+            .select("*")
+            .eq("id", productId)
+            .maybeSingle();
+
+          if (error) throw error;
+          if (!item) {
+            renderError(contentContainer);
+            return;
+          }
+
+          const waNumber = item.whatsapp || "6281234567890";
+          const waText = encodeURIComponent(
+            `Halo, saya tertarik dengan produk *${item.nama}* yang ada di website Desa Depok.`,
+          );
+
+          contentContainer.innerHTML = `
+                    <div style="margin-bottom: 30px;">
+                        <a href="umkm.html" class="btn btn-outline" style="display:inline-flex; align-items:center; gap:8px;">
+                            <i class='bx bx-left-arrow-alt'></i> Kembali ke Galeri UMKM
+                        </a>
+                    </div>
+                    <div class="detail-grid">
+                        <div>
+                            <img src="${item.gambar || "css/no-image.jpg"}" alt="${item.nama}" class="detail-img">
+                        </div>
+                        <div class="detail-info">
+                            <span class="umkm-badge" style="position:static; display:inline-block; margin-bottom:15px;">
+                                ${item.kategori} ${item.badge ? `• ${item.badge}` : ""}
+                            </span>
+                            <h2>${item.nama}</h2>
+                            <div class="detail-meta">
+                                <span><i class='bx bx-user'></i> Penjual: <strong>${item.penjual}</strong></span>
+                            </div>
+                            <div class="detail-price">${item.harga}</div>
+                            <hr style="border:0; border-top:1px solid #e2e8f0; margin-bottom:20px;">
+                            <h4 style="margin-bottom:8px; color:#1e293b;">Deskripsi Produk:</h4>
+                            <p class="detail-desc">${item.deskripsi || "Tidak ada deskripsi produk."}</p>
+                            
+                            <a href="https://wa.me/${waNumber}?text=${waText}" class="btn btn-primary" target="_blank" style="width:100%; display:flex; justify-content:center; align-items:center; gap:10px; background:#25d366; border-color:#25d366;">
+                                <i class='bx bxl-whatsapp' style="font-size:1.4rem;"></i> Hubungi Penjual via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                `;
+        } catch (err) {
+          console.error("Gagal memuat produk:", err);
+          contentContainer.innerHTML = `<div class="error-box"><i class='bx bx-error-circle'></i><h2>Terjadi Kesalahan</h2><p>${err.message}</p></div>`;
+        }
+      }
+
+      function renderError(container) {
+        container.innerHTML = `
+                <div class="error-box">
+                    <i class='bx bx-info-circle'></i>
+                    <h2>Produk Tidak Ditemukan</h2>
+                    <p>Produk yang Anda cari tidak tersedia atau telah dihapus.</p>
+                    <a href="umkm.html" class="btn btn-primary" style="margin-top:20px; display:inline-flex; align-items:center; gap:8px;">
+                        <i class='bx bx-store'></i> Kembali ke Etalase
+                    </a>
+                </div>
+            `;
+      }
+
+      document.addEventListener("DOMContentLoaded", loadDetailProduk);
+    </script>
+  </body>
+</html>
