@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Desa | Depok</title>
+    <meta
+      name="description"
+      content="Profil, Sejarah, Visi dan Misi Desa Depok."
+    />
+
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Boxicons -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css?v=3" />
+  </head>
+
+  <body class="bg-white">
+    <!-- Header / Navbar -->
+    <header id="header">
+      <div class="container navbar">
+        <a href="index.html" class="logo"> Desa<span>Depok</span> </a>
+
+        <nav class="nav-menu" id="nav-menu">
+          <ul class="nav-list">
+            <li><a href="index.html" class="nav-link">Beranda</a></li>
+            <li><a href="profil.html" class="nav-link active">Profil</a></li>
+            <li><a href="index.html#layanan" class="nav-link">Layanan</a></li>
+            <li><a href="umkm.html" class="nav-link">UMKM</a></li>
+            <li><a href="#kontak" class="nav-link">Kontak</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-toggle" id="nav-toggle">
+          <i class="bx bx-menu"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container">
+        <h1>Profil <span>Desa</span></h1>
+        <p>Sejarah, Visi, Misi, dan Struktur Pemerintahan</p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container content-section">
+      <div class="content-card">
+        <h2>Sejarah Desa Depok</h2>
+        <img
+          src="https://images.unsplash.com/photo-1505322022379-7c3353ee6291?q=80&w=1500&auto=format&fit=crop"
+          alt="Sejarah Desa"
+          class="sejarah-img"
+        />
+        <div id="detail-sejarah">
+          <!-- Dinamis dari admin -->
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>Visi dan Misi</h2>
+        <div class="visi-misi">
+          <div class="vm-item">
+            <div class="vm-icon"><i class="bx bx-target-lock"></i></div>
+            <div>
+              <h4>Visi</h4>
+              <p id="detail-visi" style="margin-bottom: 0"></p>
+            </div>
+          </div>
+          <div class="vm-item">
+            <div class="vm-icon"><i class="bx bx-rocket"></i></div>
+            <div>
+              <h4>Misi</h4>
+              <div id="detail-misi"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="kontak">
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-logo">Desa<span>Depok</span></div>
+
+          <div class="footer-links">
+            <a href="index.html">Beranda</a>
+            <a href="profil.html">Profil</a>
+            <a href="index.html#layanan">Layanan</a>
+            <a href="umkm.html">UMKM</a>
+          </div>
+
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="#" aria-label="Facebook"
+              ><i class="bx bxl-facebook"></i
+            ></a>
+            <a href="#" aria-label="Instagram"
+              ><i class="bx bxl-instagram"></i
+            ></a>
+            <a href="#" aria-label="YouTube"><i class="bx bxl-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="copyright">
+          &copy; <span id="year"></span> Bina Desa. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js?v=3"></script>
+    <script src="js/main.js?v=3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="js/data.js?v=3"></script>
+  </body>
+</html>
